@@ -1,5 +1,5 @@
 {
-  "name": "mightyshield",
+  "name": "@exerciseftui/mightyshield",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -10,13 +10,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "exerciseftui",
   "license": "MIT",
   "dependencies": {
-    "crypto": "^1.0.1",
     "tsup": "^7.1.0"
   },
   "devDependencies": {
     "typescript": "^5.1.6"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

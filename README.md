@@ -1,6 +1,6 @@
 # MightyShield CyberSecurity Library
 
-CyberGuard is a comprehensive JavaScript library designed to provide essential cybersecurity functionalities for your applications. It offers a range of modules that can be used to enhance the security of your web and mobile applications.
+MightyShield is a comprehensive JavaScript library designed to provide essential cybersecurity functionalities for your applications. It offers a range of modules that can be used to enhance the security of your web and mobile applications.
 
 This library is proudly developed and maintained by **EXERCISE FTUI**, a dedicated team passionate about cybersecurity and software development.
 
@@ -18,23 +18,22 @@ import { PasswordStrengthChecker } from 'mightyshield';
 
 const passwordChecker = new PasswordStrengthChecker()
   .minLength(8)
+  .maxLength(30)
   .haveUppercase()
   .haveLowercase()
   .haveNumbers()
   .haveSymbols();
 
-const password = 'SecurePa$$w0rd';
-const validationResult = passwordChecker.validate(password);
+// Validate Password
+console.log(passwordChecker.validate('SecurePa$$w0rd'));
+// => True
 
-if (validationResult.valid) {
-  console.log('Password meets all criteria.');
-} else {
-  console.log('Password does not meet the following criteria:');
-  console.log(validationResult.unmetRules.join(', '));
-}
+console.log(passwordChecker.validate('Test'));
+// => False
 
-const passwordScore = passwordChecker.calculateScore(password);
-console.log('Password Score:', passwordScore);
+// Calculate Score
+console.log(passwordChecker.calculateScore(password));
+// Return Calculated PasswordScore
 ```
 
 ### Methods
@@ -46,7 +45,8 @@ console.log('Password Score:', passwordScore);
 - haveSymbols(): this: Requires the password to contain at least one special character.
 - validate(password: string): { valid: boolean; unmetRules: string[] }: Validates the password against the defined criteria and returns validation result.
 - calculateScore(password: string): number: Calculates the password score based on predefined criteria.
-Contributing
+
+## Contributing
 Contributions are welcome! Feel free to open issues and pull requests for improvements, bug fixes, or new features.
 
 ## License
