@@ -1,0 +1,22 @@
+{
+  "name": "mightyshield",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "tsup": "^7.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
+}
