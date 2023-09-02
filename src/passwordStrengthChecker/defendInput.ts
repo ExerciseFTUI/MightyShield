@@ -1,4 +1,5 @@
 import * as RG from './constants';
+import { Response, Request, NextFunction } from 'express';
 
 export class defendInput{
     value: string;
@@ -18,4 +19,8 @@ export class defendInput{
     checkAll(){
         return this.sqlCheck() || this.xssCheck();
     }
+}
+
+export class defendMiddleware {
+    
 }
