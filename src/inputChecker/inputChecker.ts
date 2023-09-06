@@ -30,17 +30,7 @@ export class defendMiddleware {
         this.checkParams = checkParams;
     }
 
-    check(req: Request, res: Response, next: NextFunction, checkBody: boolean, checkParams: boolean){
-        if(checkBody){
-            this.checkSQLandXSS(req, res, next);
-        }
-        if(checkParams){
-            this.checkParameter(req, res, next);
-        }
-        next();
-    }
-
-    private checkSQLandXSS(req: Request, res: Response, next: NextFunction){
+    checkSQLandXSS(req: Request, res: Response, next: NextFunction){
         const data = req.body;
 
         for(let key in data){
@@ -53,7 +43,7 @@ export class defendMiddleware {
         }
     }
 
-    private checkParameter(req: Request, res: Response, next: NextFunction){
+    checkParameter(req: Request, res: Response, next: NextFunction){
         const data = req.params;
 
         for(let key in data){
