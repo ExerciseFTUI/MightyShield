@@ -22,37 +22,55 @@ export class defendInput{
 }
 
 export class defendMiddleware {
-    checkBody: boolean = false;
-    checkParams: boolean = false;
+    public static checkBody = false;
+    public static checkParams = false;
 
-    constructor(checkBody: boolean, checkParams: boolean){
-        this.checkBody = checkBody;
-        this.checkParams = checkParams;
+    constructor(...args: {checkBody?: boolean, checkParams?: boolean}[]){
+        defendMiddleware.checkBody = args[0]?.checkBody ?? false;
+        defendMiddleware.checkParams = args[0]?.checkParams ?? false;
     }
 
-    checkSQLandXSS(req: Request, res: Response, next: NextFunction){
-        const data = req.body;
+        protect(){
+            return (req:Request, res:Response, next:NextFunction) => {
+                if(defendMiddleware.checkBody){
+                    const result = this.checkSQLandXSS(req, res, next);
+                    if(result){
+                        return res.status(400).send("Bad Request");
+                    }
+                }
+                if(defendMiddleware.checkParams){
+                    const result = this.checkParameter(req, res, next);
+                    if(result){
+                        return res.status(400).send("Bad Request");
+                    }
+                }
+                next();
+            }
+        }
 
-        for(let key in data){
-            if(typeof data[key] === 'string'){
-                const test = new defendInput(data[key]);
-                if(test.checkAll()){
-                    return res.status(403).send('SQL injection or XSS attack detected');
+        private checkSQLandXSS(req: Request, res: Response, next: NextFunction) {
+            const data = req.body;
+
+            for(const key in data){
+                const val = data[key];
+                const result = new defendInput(val).checkAll();
+                
+                if(result){
+                    return true;
                 }
             }
         }
-    }
 
-    checkParameter(req: Request, res: Response, next: NextFunction){
-        const data = req.params;
+        private checkParameter(req: Request, res: Response, next: NextFunction){
+            const data = req.params;
 
-        for(let key in data){
-            const val = data[key];
-            const decodeVal = decodeURIComponent(val as string);
-            const test = new defendInput(decodeVal);
-            if(test.checkAll()){
-                return res.status(403).send('Forbidden');
+            for(const key in data){
+                const val = data[key];
+                const devodeVal = decodeURIComponent(val as string);
+                const result = new defendInput(devodeVal).checkAll();
+                if(result){
+                    return true;
+                }
             }
-        }
-    }
-}
+        }    }
+
