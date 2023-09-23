@@ -1,6 +1,5 @@
 import express from 'express';
 import requestLimiter from './reqLimiter.js';
-import requestLimiterJson from './requestLimiterJson.js';
 
 const app = express();
 const port = 3000;
