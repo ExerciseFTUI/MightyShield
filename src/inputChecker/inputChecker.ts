@@ -1,6 +1,8 @@
 import * as RG from './constants';
 import { Response, Request, NextFunction } from 'express';
 
+/* The `defendInput` class is used to check if a given input value contains any SQL or XSS
+vulnerabilities. */
 export class defendInput{
     value: string;
 
@@ -21,25 +23,27 @@ export class defendInput{
     }
 }
 
+/* The `defendMiddleware` class is a TypeScript middleware that checks for SQL injection and XSS
+vulnerabilities in request bodies and parameters. */
 export class defendMiddleware {
-    public static checkBody: boolean;
-    public static checkParams: boolean;
+    private checkBody: boolean;
+    private checkParams: boolean;
 
-    constructor(...args: {checkBody: boolean, checkParams: boolean}[]){
-        defendMiddleware.checkBody = args[0]?.checkBody ?? false;
-        defendMiddleware.checkParams = args[0]?.checkParams ?? false;
+    constructor(...args: {checkBody?: boolean, checkParams?: boolean}[]){
+        this.checkBody = args[0]?.checkBody ?? true;
+        this.checkParams = args[0]?.checkParams ?? true;
     }
 
     protect(){
         return (req:Request, res:Response, next:NextFunction) => {
             let check: boolean = false;
-            if(defendMiddleware.checkBody){
+            if(this.checkBody){
                 const result = this.checkSQLandXSS(req, res, next);
                 if(result){
                     check = true;
                 }
             }
-            if(defendMiddleware.checkParams){
+            if(this.checkParams){
                 const result = this.checkParameter(req, res, next);
                 if(result){
                     check = true;
@@ -47,19 +51,18 @@ export class defendMiddleware {
             }
 
             if(check){
-                res.status(400).json({
-                    status: 'SQL Injection or XSS attack detected',
-                    message: 'Bad request'
-                })
-            }
+                res.status(400).send('Bad Request');
 
-            next();
+                return;
+            } else {
+                next();
+            }
         }
     }
 
     private checkSQLandXSS(req: Request, res: Response, next: NextFunction) {
         const data = req.body;
-
+        
         for(const key in data){
             const val = data[key];
             const result = new defendInput(val).checkAll();
@@ -71,12 +74,12 @@ export class defendMiddleware {
     }
 
     private checkParameter(req: Request, res: Response, next: NextFunction){
-        const data = req.params;
-
+        const data = req.query;
+        
         for(const key in data){
             const val = data[key];
-            const devodeVal = decodeURIComponent(val as string);
-            const result = new defendInput(devodeVal).checkAll();
+            const decodeVal = decodeURIComponent(val as string);
+            const result = new defendInput(decodeVal).checkAll();
             if(result){
                 return true;
             }
