@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import requestIp from 'request-ip';
 import { cleanupRequestCount, getClientIp } from './utils.js';
 
 interface RequestCount {

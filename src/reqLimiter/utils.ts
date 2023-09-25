@@ -8,7 +8,6 @@ interface RequestCount {
   };
 }
 
-//Delete any data from requestCount that has pass the resetTime
 export function cleanupRequestCount(requestCount: RequestCount, resetTime: number, cleanupInterval: number) {
 
     //set an interval to check requestCount
@@ -29,7 +28,7 @@ export function cleanupRequestCount(requestCount: RequestCount, resetTime: numbe
     }, cleanupInterval);
 }
 
-// Validates and returns the IP address
+
 export function getClientIp(req: Request, res: Response): string | null {
     try {
         const clientIp: string | undefined = requestIp.getClientIp(req);
