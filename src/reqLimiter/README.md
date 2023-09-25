@@ -39,4 +39,4 @@ In this example, the `requestLimiter` middleware is used to limit incoming reque
 
 ## Methods
 -cleanupRequestCount(requestCount: RequestCount, resetTime: number, cleanupInterval: number) : Delete any data from requestCount that has pass the resetTime.
--getClientIp(req: Request, res: Response): Validates and returns the IP address
+-getClientIp(req: Request, res: Response): Validates and returns the IP address.
