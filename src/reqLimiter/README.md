@@ -38,5 +38,5 @@ app.listen(3000, () => {
 In this example, the `requestLimiter` middleware is used to limit incoming requests to a maximum of 100 requests per IP address within a 5-minute window, and in every 10-minutes the program will cleanup the counter of an IP if its no longer useful. Requests beyond 100 limit will receive a `429 Too Many Requests` response.
 
 ## Methods
--cleanupRequestCount(requestCount: RequestCount, resetTime: number, cleanupInterval: number) : Delete any data from requestCount that has pass the resetTime.
--getClientIp(req: Request, res: Response): Validates and returns the IP address.
+- cleanupRequestCount(requestCount: RequestCount, resetTime: number, cleanupInterval: number) : Delete any data from requestCount that has pass the resetTime.
+- getClientIp(req: Request, res: Response): Validates and returns the IP address.
