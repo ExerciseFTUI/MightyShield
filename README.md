@@ -36,6 +36,47 @@ console.log(passwordChecker.calculateScore(password));
 // Return Calculated PasswordScore
 ```
 
+SQL injection and XSS attack detection
+```javascript
+import { defendInput } from 'mightyshield'
+
+const checkInput = new defendInput("example1")
+
+// check if the input is a valid sql query
+console.log(checkInput.sqlCheck());
+// => true if detected
+
+// check if the input is XSS attack
+console.log(checkInput.xssCheck()); 
+// true if detected
+
+// check all, sqlCheck() and xssCheck()
+console.log(checkInput.checkAll()); 
+// true if detected
+```
+
+SQL injection and XSS attack prevention using middleware
+```javascript
+import express from 'express';
+import { defendMiddleware } from 'mightyshield';
+
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded());
+const middleware = new defendMiddleware({
+    checkBody: true, // default true
+    checkParams: true // default true
+})
+// parameter for defendMiddleware class can left blank
+
+app.use(middleware.protect());
+
+app.listen(3000, () => {
+    console.log(`Server running in http://localhost:3000`);
+});
+```
+
 ### Methods
 - minLength(length: number): this: Specifies the minimum length requirement for the password.
 - maxLength(length: number): this: Specifies the maximum length requirement for the password.
